@@ -15,6 +15,7 @@
 	<description>Compares two poker hands</description>
 	<properties>
 		<java.version>21</java.version>
+		<snakeyaml.version>2.2</snakeyaml.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -24,7 +25,7 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
-			<version>2.2</version>
+			<version>${snakeyaml.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
