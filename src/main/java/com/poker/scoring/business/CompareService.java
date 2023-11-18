@@ -52,9 +52,7 @@ public class CompareService {
   }
 
   private List<Card> sortByValue(List<Card> hand) {
-    return hand.stream()
-        .sorted(Comparator.comparing(Card::getValue).reversed())
-        .collect(Collectors.toList());
+    return hand.stream().sorted(Comparator.comparing(Card::getValue)).collect(Collectors.toList());
   }
 
   private Map<CardValue, Long> groupByValue(List<Card> hand) {
