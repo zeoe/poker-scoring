@@ -18,14 +18,18 @@ import org.springframework.stereotype.Service;
 public class CompareService {
 
   public List<Card> getStrongerHand(List<Card> hand1, List<Card> hand2) {
+    log.info("Compare hand {} with hand {}", hand1, hand2);
     int scoreHand1 = getScore(hand1);
     int scoreHand2 = getScore(hand2);
 
     if (scoreHand1 > scoreHand2) {
+      log.info("Hand1 {} won, Congratulations!", hand1);
       return hand1;
     } else if (scoreHand2 > scoreHand1) {
+      log.info("Hand2 {} won, Congratulations!", hand2);
       return hand2;
     } else {
+      log.info("Wow, poker hands {} {} are equally strong!", hand1, hand2);
       return Collections.emptyList();
     }
   }
