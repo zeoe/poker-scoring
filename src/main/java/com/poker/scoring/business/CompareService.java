@@ -23,10 +23,10 @@ public class CompareService {
     int scoreHand2 = getScore(hand2);
 
     if (scoreHand1 > scoreHand2) {
-      log.info("Hand1 {} won, Congratulations!", hand1);
+      log.info("Hand1 {} won, congratulations!", hand1);
       return hand1;
     } else if (scoreHand2 > scoreHand1) {
-      log.info("Hand2 {} won, Congratulations!", hand2);
+      log.info("Hand2 {} won, congratulations!", hand2);
       return hand2;
     } else {
       log.info("Wow, poker hands {} {} are equally strong!", hand1, hand2);
