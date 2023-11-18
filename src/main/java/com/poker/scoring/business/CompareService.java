@@ -81,8 +81,8 @@ public class CompareService {
     return hand.entrySet().stream().anyMatch(m -> m.getValue() == 3L);
   }
 
-  private boolean isStraight(List<Card> hands) {
-    return StreamEx.of(hands)
+  private boolean isStraight(List<Card> hand) {
+    return StreamEx.of(hand)
         .pairMap(
             (current, next) -> ((current.getValue().getScore() - next.getValue().getScore()) != 1))
         .findAny(card -> card)
