@@ -4,13 +4,11 @@ package com.poker.scoring.business;
 import com.poker.scoring.model.Card;
 import com.poker.scoring.model.CardSuit;
 import com.poker.scoring.model.CardValue;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import one.util.streamex.StreamEx;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -83,8 +81,12 @@ public class CompareService {
     return hand.entrySet().stream().anyMatch(m -> m.getValue() == 3L);
   }
 
-  private boolean isStraight(List<Card> hand) {
-    return false;
+  private boolean isStraight(List<Card> hands) {
+    return StreamEx.of(hands)
+        .pairMap(
+            (current, next) -> ((current.getValue().getScore() - next.getValue().getScore()) != 1))
+        .findAny(card -> card)
+        .isEmpty();
   }
 
   private boolean isFlush(Map<CardSuit, Long> hand) {
