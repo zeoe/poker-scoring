@@ -2,18 +2,24 @@
 package com.poker.scoring.business;
 
 import com.poker.scoring.model.Card;
+import com.poker.scoring.model.CardSuit;
+import com.poker.scoring.model.CardValue;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class CompareService {
 
   public List<Card> getStrongerHand(List<Card> hand1, List<Card> hand2) {
-    int scoreHand1 = getScore(sortByValue(hand1));
-    int scoreHand2 = getScore(sortByValue(hand2));
+    int scoreHand1 = getScore(hand1);
+    int scoreHand2 = getScore(hand2);
 
     if (scoreHand1 > scoreHand2) {
       return hand1;
@@ -24,58 +30,75 @@ public class CompareService {
     }
   }
 
+  private int getScore(List<Card> hand) {
+    List<Card> handSorted = sortByValue(hand);
+    Map<CardValue, Long> handGroupedByValue = groupByValue(hand);
+    Map<CardSuit, Long> handGroupedBySuit = groupBySuit(hand);
+
+    if (isStraightFlush(handGroupedBySuit, handSorted)) return 1000;
+    if (isFourOfAKind(handGroupedByValue)) return 900;
+    if (isFullHouse(handGroupedByValue)) return 800;
+    if (isFlush(handGroupedBySuit)) return 700;
+    if (isStraight(handSorted)) return 600;
+    if (isThreeOfAKind(handGroupedByValue)) return 500;
+    if (isTwoPair(handGroupedByValue)) return 400;
+    if (isPair(handGroupedByValue)) return 300;
+
+    return getScoreOfHighCard(handSorted);
+  }
+
   private List<Card> sortByValue(List<Card> hand) {
     return hand.stream()
         .sorted(Comparator.comparing(Card::getValue).reversed())
         .collect(Collectors.toList());
   }
 
-  private int getScore(List<Card> sortedHand) {
-    if (isStraightFlush(sortedHand)) return 1000;
-    if (isFourOfAKind(sortedHand)) return 900;
-    if (isFullHouse(sortedHand)) return 800;
-    if (isFlush(sortedHand)) return 700;
-    if (isStraight(sortedHand)) return 600;
-    if (isThreeOfAKind(sortedHand)) return 500;
-    if (isTwoPair(sortedHand)) return 400;
-    if (isPair(sortedHand)) return 300;
+  private Map<CardValue, Long> groupByValue(List<Card> hand) {
+    return hand.stream()
+        .map(Card::getValue)
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+  }
 
-    return getScoreOfHighCard(sortedHand);
+  private Map<CardSuit, Long> groupBySuit(List<Card> hand) {
+    return hand.stream()
+        .map(Card::getSuit)
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }
 
   private int getScoreOfHighCard(List<Card> hand) {
     return hand.get(0).getValue().getScore();
   }
 
-  private boolean isPair(List<Card> hand) {
-    return false;
+  private boolean isPair(Map<CardValue, Long> hand) {
+    return hand.entrySet().stream().anyMatch(m -> m.getValue() == 2L);
   }
 
-  private boolean isTwoPair(List<Card> hand) {
-    return false;
+  private boolean isTwoPair(Map<CardValue, Long> hand) {
+    return hand.entrySet().stream().filter(m -> m.getValue() == 2L).count() == 2;
   }
 
-  private boolean isThreeOfAKind(List<Card> hand) {
-    return false;
+  private boolean isThreeOfAKind(Map<CardValue, Long> hand) {
+    return hand.entrySet().stream().anyMatch(m -> m.getValue() == 3L);
   }
 
   private boolean isStraight(List<Card> hand) {
     return false;
   }
 
-  private boolean isFlush(List<Card> hand) {
-    return false;
+  private boolean isFlush(Map<CardSuit, Long> hand) {
+    return hand.entrySet().stream().anyMatch(m -> m.getValue() == 5L);
   }
 
-  private boolean isFullHouse(List<Card> hand) {
-    return false;
+  private boolean isFullHouse(Map<CardValue, Long> hand) {
+    return hand.entrySet().stream().anyMatch(m -> m.getValue() == 2L)
+        && hand.entrySet().stream().anyMatch(m -> m.getValue() == 3L);
   }
 
-  private boolean isFourOfAKind(List<Card> hand) {
-    return false;
+  private boolean isFourOfAKind(Map<CardValue, Long> hand) {
+    return hand.entrySet().stream().anyMatch(m -> m.getValue() == 4L);
   }
 
-  private boolean isStraightFlush(List<Card> hand) {
-    return isFlush(hand) && isStraight(hand);
+  private boolean isStraightFlush(Map<CardSuit, Long> handGroupedByValue, List<Card> hand) {
+    return isFlush(handGroupedByValue) && isStraight(hand);
   }
 }
