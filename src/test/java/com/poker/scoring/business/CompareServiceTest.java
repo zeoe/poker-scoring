@@ -145,8 +145,8 @@ public class CompareServiceTest {
   @DisplayName("Compare poker hands")
   @ParameterizedTest
   @MethodSource("providePokerHandsWithDifferentValues")
-  public void comparePokerHands(List<Card> winnerHand, List<Card> loser) {
-    List<Card> result = compareService.getStrongerHand(winnerHand, loser);
+  public void comparePokerHands(List<Card> winnerHand, List<Card> loserHand) {
+    List<Card> result = compareService.getStrongerHand(winnerHand, loserHand);
     assertEquals(winnerHand, result);
   }
 }
