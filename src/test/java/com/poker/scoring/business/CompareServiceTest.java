@@ -25,24 +25,128 @@ public class CompareServiceTest {
     return Stream.of(
         Arguments.of(
             List.of(
-                new Card(CardSuit.CLUBS, CardValue.SIX),
-                new Card(CardSuit.CLUBS, CardValue.THREE),
-                new Card(CardSuit.CLUBS, CardValue.FIVE),
-                new Card(CardSuit.CLUBS, CardValue.TWO),
-                new Card(CardSuit.CLUBS, CardValue.FOUR)),
+                new Card(CardSuit.CLUBS, CardValue.ACE),
+                new Card(CardSuit.CLUBS, CardValue.KING),
+                new Card(CardSuit.CLUBS, CardValue.QUEEN),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.CLUBS, CardValue.TEN)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.ACE),
+                new Card(CardSuit.SPADES, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.ACE),
+                new Card(CardSuit.CLUBS, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.KING))),
+        Arguments.of(
             List.of(
                 new Card(CardSuit.CLUBS, CardValue.ACE),
                 new Card(CardSuit.DIAMONDS, CardValue.ACE),
                 new Card(CardSuit.SPADES, CardValue.ACE),
                 new Card(CardSuit.HEARTS, CardValue.ACE),
-                new Card(CardSuit.CLUBS, CardValue.KING))));
+                new Card(CardSuit.CLUBS, CardValue.KING)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.ACE),
+                new Card(CardSuit.SPADES, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.ACE),
+                new Card(CardSuit.CLUBS, CardValue.KING),
+                new Card(CardSuit.HEARTS, CardValue.KING))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.CLUBS, CardValue.ACE),
+                new Card(CardSuit.DIAMONDS, CardValue.ACE),
+                new Card(CardSuit.SPADES, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.KING),
+                new Card(CardSuit.CLUBS, CardValue.KING)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.THREE),
+                new Card(CardSuit.DIAMONDS, CardValue.FOUR),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.KING))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.THREE),
+                new Card(CardSuit.DIAMONDS, CardValue.FOUR),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.KING)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.SPADES, CardValue.THREE),
+                new Card(CardSuit.HEARTS, CardValue.FOUR),
+                new Card(CardSuit.CLUBS, CardValue.FIVE),
+                new Card(CardSuit.HEARTS, CardValue.SIX))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.SPADES, CardValue.THREE),
+                new Card(CardSuit.HEARTS, CardValue.FOUR),
+                new Card(CardSuit.CLUBS, CardValue.FIVE),
+                new Card(CardSuit.HEARTS, CardValue.SIX)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.HEARTS, CardValue.TWO),
+                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.KING))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TWO),
+                new Card(CardSuit.HEARTS, CardValue.TWO),
+                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.KING)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TEN),
+                new Card(CardSuit.SPADES, CardValue.TEN),
+                new Card(CardSuit.HEARTS, CardValue.JACK),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.HEARTS, CardValue.SIX))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TEN),
+                new Card(CardSuit.SPADES, CardValue.TEN),
+                new Card(CardSuit.HEARTS, CardValue.JACK),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.HEARTS, CardValue.SIX)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.KING),
+                new Card(CardSuit.HEARTS, CardValue.KING),
+                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.NINE))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.KING),
+                new Card(CardSuit.HEARTS, CardValue.KING),
+                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.DIAMONDS, CardValue.QUEEN),
+                new Card(CardSuit.DIAMONDS, CardValue.NINE)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.TEN),
+                new Card(CardSuit.SPADES, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.SEVEN),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.HEARTS, CardValue.SIX))),
+        Arguments.of(
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.ACE),
+                new Card(CardSuit.HEARTS, CardValue.QUEEN),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.DIAMONDS, CardValue.TEN),
+                new Card(CardSuit.DIAMONDS, CardValue.NINE)),
+            List.of(
+                new Card(CardSuit.DIAMONDS, CardValue.KING),
+                new Card(CardSuit.SPADES, CardValue.TWO),
+                new Card(CardSuit.HEARTS, CardValue.SEVEN),
+                new Card(CardSuit.CLUBS, CardValue.JACK),
+                new Card(CardSuit.HEARTS, CardValue.SIX))));
   }
 
-  @DisplayName("Compare poker hand")
+  @DisplayName("Compare poker hands")
   @ParameterizedTest
   @MethodSource("providePokerHandsWithDifferentValues")
-  public void comparePokerHands(List<Card> hand1, List<Card> hand2) {
-    List<Card> strongerHand = compareService.getStrongerHand(hand1, hand2);
-    assertEquals(hand1, strongerHand);
+  public void comparePokerHands(List<Card> winnerHand, List<Card> loser) {
+    List<Card> result = compareService.getStrongerHand(winnerHand, loser);
+    assertEquals(winnerHand, result);
   }
 }
