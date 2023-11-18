@@ -25,11 +25,11 @@ public class CompareServiceTest {
     return Stream.of(
         Arguments.of(
             List.of(
-                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.CLUBS, CardValue.SIX),
                 new Card(CardSuit.CLUBS, CardValue.THREE),
                 new Card(CardSuit.CLUBS, CardValue.FIVE),
-                new Card(CardSuit.CLUBS, CardValue.FIVE),
-                new Card(CardSuit.CLUBS, CardValue.SIX)),
+                new Card(CardSuit.CLUBS, CardValue.TWO),
+                new Card(CardSuit.CLUBS, CardValue.FOUR)),
             List.of(
                 new Card(CardSuit.CLUBS, CardValue.ACE),
                 new Card(CardSuit.DIAMONDS, CardValue.ACE),
