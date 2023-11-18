@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CardValue {
-  ACE(13),
-  KING(12),
-  QUEEN(11),
+  ACE(14),
+  KING(13),
+  QUEEN(12),
   JACK(11),
   TEN(10),
   NINE(9),
