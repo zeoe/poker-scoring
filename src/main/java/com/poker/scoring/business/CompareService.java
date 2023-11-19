@@ -165,6 +165,7 @@ public class CompareService {
         .filter(m -> m.getValue() == count)
         .map(m -> m.getKey().getScore())
         .sorted(Collections.reverseOrder())
+        .distinct()
         .toList();
   }
 }
