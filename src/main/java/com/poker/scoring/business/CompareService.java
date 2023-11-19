@@ -23,7 +23,7 @@ public class CompareService {
     } else if (pokerHand2.getScore() > pokerHand1.getScore()) {
       return hand2;
     } else {
-      return Collections.emptyList();
+      return compareSamePokerHands(pokerHand1, hand1, hand2);
     }
   }
 
@@ -42,6 +42,30 @@ public class CompareService {
     if (isPair(handGroupedByValue)) return PokerHand.PAIR;
 
     return PokerHand.HIGH_CARD;
+  }
+
+  private List<Card> compareSamePokerHands(
+      PokerHand pokerHand, List<Card> hand1, List<Card> hand2) {
+    switch (pokerHand) {
+      case STRAIGHT_FLUSH, STRAIGHT -> {
+        return compareByHighestCard(hand1, hand2);
+      }
+      case FOUR_OF_KIND -> {
+        return compareByGroupValue(hand1, hand2, 4);
+      }
+      case FULL_HOUSE, THREE_OF_KIND -> {
+        return compareByGroupValue(hand1, hand2, 3);
+      }
+      case FLUSH, HIGH_CARD -> {
+        return compareByGroupValue(hand1, hand2, 1);
+      }
+      case TWO_PAIR, PAIR -> {
+        return compareByMultipleGroupValue(hand1, hand2);
+      }
+      default -> {
+        return Collections.emptyList();
+      }
+    }
   }
 
   private List<Card> sortByValue(List<Card> hand) {
@@ -98,5 +122,49 @@ public class CompareService {
 
   private boolean isValueIn(Map<CardValue, Long> hand, long value) {
     return hand.entrySet().stream().anyMatch(m -> m.getValue() == value);
+  }
+
+  private List<Card> compareByHighestCard(List<Card> hand1, List<Card> hand2) {
+    int score1 = sortByValue(hand1).get(0).getValue().getScore();
+    int score2 = sortByValue(hand2).get(0).getValue().getScore();
+    if (score1 > score2) {
+      return hand1;
+    } else if (score2 > score1) {
+      return hand2;
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
+  private List<Card> compareByGroupValue(List<Card> hand1, List<Card> hand2, int counter) {
+    List<Integer> sortedScore1 = getAllCardValuesByCount(hand1, counter);
+    List<Integer> sortedScore2 = getAllCardValuesByCount(hand2, counter);
+
+    for (int i = 0; i < sortedScore1.size(); i++) {
+      if (sortedScore1.get(i) > sortedScore2.get(i)) {
+        return hand1;
+      } else if (sortedScore2.get(i) > sortedScore1.get(i)) {
+        return hand2;
+      }
+    }
+
+    return Collections.emptyList();
+  }
+
+  private List<Card> compareByMultipleGroupValue(List<Card> hand1, List<Card> hand2) {
+    List<Card> winnerByGroupValue = compareByGroupValue(hand1, hand2, 2);
+    if (!winnerByGroupValue.isEmpty()) {
+      return winnerByGroupValue;
+    }
+
+    return compareByGroupValue(hand1, hand2, 1);
+  }
+
+  private List<Integer> getAllCardValuesByCount(List<Card> hand, int count) {
+    return groupByValue(hand).entrySet().stream()
+        .filter(m -> m.getValue() == count)
+        .map(m -> m.getKey().getScore())
+        .sorted(Collections.reverseOrder())
+        .toList();
   }
 }
